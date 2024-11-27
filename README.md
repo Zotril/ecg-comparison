@@ -8,13 +8,13 @@
 
 1. **Python:** 3.8 або вище.
 2. **Бібліотеки:** Встановіть залежності, що вказані нижче
-numpy
-matplotlib
-scipy
-pandas
-wfdb
-pywavelets
-ecg-detectors
+**numpy**
+**matplotlib**
+**scipy**
+**pandas**
+**wfdb**
+**pywavelets**
+**ecg-detectors**
 
 ## Структура проєкту
 
