@@ -36,11 +36,11 @@ filtered_ecg1 = filter_raw_ecg1(unfiltered_ecg)
 
 #r_peaks1 = detectors1.pan_tompkins_detector(unfiltered_ecg)
 #r_peaks1 = detectors1.hamilton_detector(unfiltered_ecg)
-#r_peaks1 = detectors1.engzee_detector(unfiltered_ecg)
+r_peaks1 = detectors1.engzee_detector(unfiltered_ecg)
 #r_peaks1 = detectors1.two_average_detector(unfiltered_ecg)
 #r_peaks1 = detectors1.swt_detector(unfiltered_ecg)
 #r_peaks1 = detectors1.wqrs_detector(unfiltered_ecg)
-r_peaks1 = detectors1.christov_detector(unfiltered_ecg)
+#r_peaks1 = detectors1.christov_detector(unfiltered_ecg)
 
 r_ts1 = np.array(r_peaks1) / fs1
 
@@ -160,26 +160,26 @@ detectors = Detectors(fs)
 
 #-------------------------Engzee----------------------------------
 
-# def filter_raw_ecg(raw_ecg):
-#     f1 = 48/fs
-#     f2 = 52/fs
-#     b, a = signal.butter(4, [f1*2, f2*2], btype='bandstop')
-#     filtered_ecg = signal.lfilter(b, a, raw_ecg)
-#     diff = np.zeros(len(filtered_ecg))
-#     for i in range(4, len(diff)):
-#         diff[i] = filtered_ecg[i]-filtered_ecg[i-4]
-#     ci = [1,4,6,4,1]        
-#     low_pass = signal.lfilter(ci, 1, diff)
-#     low_pass[:int(0.2*fs)] = 0
-#     return low_pass
+def filter_raw_ecg(raw_ecg):
+    f1 = 48/fs
+    f2 = 52/fs
+    b, a = signal.butter(4, [f1*2, f2*2], btype='bandstop')
+    filtered_ecg = signal.lfilter(b, a, raw_ecg)
+    diff = np.zeros(len(filtered_ecg))
+    for i in range(4, len(diff)):
+        diff[i] = filtered_ecg[i]-filtered_ecg[i-4]
+    ci = [1,4,6,4,1]        
+    low_pass = signal.lfilter(ci, 1, diff)
+    low_pass[:int(0.2*fs)] = 0
+    return low_pass
 
-# filtered_normal_ecg = filter_raw_ecg(raw_normal_ecg)
-# filtered_mi_ecg = filter_raw_ecg(raw_mi_ecg)
-# filtered_hyp_ecg = filter_raw_ecg(raw_hyp_ecg)
+filtered_normal_ecg = filter_raw_ecg(raw_normal_ecg)
+filtered_mi_ecg = filter_raw_ecg(raw_mi_ecg)
+filtered_hyp_ecg = filter_raw_ecg(raw_hyp_ecg)
 
-# normal_r_peaks = detectors.engzee_detector(raw_normal_ecg)
-# mi_r_peaks = detectors.engzee_detector(raw_mi_ecg)
-# hyp_r_peaks = detectors.engzee_detector(raw_hyp_ecg)
+normal_r_peaks = detectors.engzee_detector(raw_normal_ecg)
+mi_r_peaks = detectors.engzee_detector(raw_mi_ecg)
+hyp_r_peaks = detectors.engzee_detector(raw_hyp_ecg)
 
 #-----------------------Two average------------------------------------
 
@@ -275,47 +275,47 @@ detectors = Detectors(fs)
 # hyp_r_peaks = detectors.wqrs_detector(raw_hyp_ecg)
 #-----------------Christov--------------------------------------
 
-def filter_raw_ecg(raw_ecg):
-    total_taps = 0
+# def filter_raw_ecg(raw_ecg):
+#     total_taps = 0
 
-    b = np.ones(int(0.02*fs))
-    b = b/int(0.02*fs)
-    total_taps += len(b)
-    a = [1]
+#     b = np.ones(int(0.02*fs))
+#     b = b/int(0.02*fs)
+#     total_taps += len(b)
+#     a = [1]
 
-    MA1 = signal.lfilter(b, a, raw_ecg)
+#     MA1 = signal.lfilter(b, a, raw_ecg)
 
-    b = np.ones(int(0.028*fs))
-    b = b/int(0.028*fs)
-    total_taps += len(b)
-    a = [1]
+#     b = np.ones(int(0.028*fs))
+#     b = b/int(0.028*fs)
+#     total_taps += len(b)
+#     a = [1]
 
-    MA2 = signal.lfilter(b, a, MA1)
+#     MA2 = signal.lfilter(b, a, MA1)
 
-    Y = []
-    for i in range(1, len(MA2)-1):
+#     Y = []
+#     for i in range(1, len(MA2)-1):
         
-        diff = abs(MA2[i+1]-MA2[i-1])
+#         diff = abs(MA2[i+1]-MA2[i-1])
 
-        Y.append(diff)
+#         Y.append(diff)
 
-    b = np.ones(int(0.040*fs))
-    b = b/int(0.040*fs)
-    total_taps += len(b)
-    a = [1]
+#     b = np.ones(int(0.040*fs))
+#     b = b/int(0.040*fs)
+#     total_taps += len(b)
+#     a = [1]
 
-    MA3 = signal.lfilter(b, a, Y)
+#     MA3 = signal.lfilter(b, a, Y)
 
-    MA3[0:total_taps] = 0
-    return MA3
+#     MA3[0:total_taps] = 0
+#     return MA3
 
-filtered_normal_ecg = filter_raw_ecg(raw_normal_ecg)
-filtered_mi_ecg = filter_raw_ecg(raw_mi_ecg)
-filtered_hyp_ecg = filter_raw_ecg(raw_hyp_ecg)
+# filtered_normal_ecg = filter_raw_ecg(raw_normal_ecg)
+# filtered_mi_ecg = filter_raw_ecg(raw_mi_ecg)
+# filtered_hyp_ecg = filter_raw_ecg(raw_hyp_ecg)
 
-normal_r_peaks = detectors.christov_detector(raw_normal_ecg)
-mi_r_peaks = detectors.christov_detector(raw_mi_ecg)
-hyp_r_peaks = detectors.christov_detector(raw_hyp_ecg)
+# normal_r_peaks = detectors.christov_detector(raw_normal_ecg)
+# mi_r_peaks = detectors.christov_detector(raw_mi_ecg)
+# hyp_r_peaks = detectors.christov_detector(raw_hyp_ecg)
 
 # #---------------------------------------------------------------------
 
