@@ -78,7 +78,7 @@ plt.ylabel("HR/BPM")
 plt.ylim([0,200 ])
 plt.show()
 
-data_path = r'C:/Users/yorestarii/Downloads/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3/ptb-xl-a-large-publicly-available-electrocardiography-dataset-1.0.3'
+data_path = r'put_path_to_dataset'
 mat_dir = os.path.join(data_path, 'records500')
 csv_path = os.path.join(data_path, 'ptbxl_database.csv')
 scp_path = os.path.join(data_path, 'scp_statements.csv')
