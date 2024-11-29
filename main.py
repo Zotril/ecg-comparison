@@ -12,7 +12,7 @@ import os
 import pandas as pd
 import wfdb
 from wfdb.processing import find_peaks, gqrs_detect
-#from templates import qrs_templates
+from peaks import annoted_peaks
 import pywt
 
 current_dir = pathlib.Path(__file__).resolve()
@@ -113,6 +113,10 @@ def load_ecg(ecg_id):
 raw_normal_ecg = load_ecg(normal_ids[0])[:, 0]
 raw_mi_ecg = load_ecg(mi_ids[0])[:, 0]
 raw_hyp_ecg = load_ecg(hyp_ids[0])[:, 0]
+
+# annoted_peaks(raw_hyp_ecg)
+# annoted_peaks(raw_mi_ecg)
+# annoted_peaks(raw_normal_ecg)
 
 fs = 500
 detectors = Detectors(fs)
